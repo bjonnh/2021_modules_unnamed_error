@@ -10,7 +10,7 @@ version = "1.0-SNAPSHOT"
 
 val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
 val compileJava: JavaCompile by tasks
-compileJava.destinationDir = compileKotlin.destinationDir
+//compileJava.destinationDir = compileKotlin.destinationDir
 
 application {
     mainModule.set("demo")
@@ -37,7 +37,8 @@ tasks.withType<JavaCompile> {
     //dependsOn(":compileKotlin")
     inputs.property("moduleName", "demo")
     doFirst {
-        options.compilerArgs.addAll(arrayOf("--module-path", classpath.asPath))
+        options.compilerArgs.addAll(arrayOf("--module-path", classpath.asPath,
+       "--patch-module", "org.module.kotlin=${sourceSets.main.get().output.asPath}" ))
         classpath = files()
     }
 }
